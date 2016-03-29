@@ -60,6 +60,17 @@ public class SudokuRestControllerTest {
         ;
     }
 
+    @Test
+    public void shouldReturnExceptionMessage() throws Exception {
+        mockMvc.perform(post("/sudoku/fill")
+                .content(json(new SudokuMove(12, 2, 2)))
+                .contentType(contentType))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$", is("The digit must be between 1 and 9")))
+        ;
+    }
+
     protected String json(Object o) throws IOException {
         MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
         this.mappingJackson2HttpMessageConverter.write(

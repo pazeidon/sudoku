@@ -48,6 +48,7 @@ public class Sudoku {
      * @throws IllegalSudokuMove in case of invalid digit or when trying to overwrite a hint
      */
     public SudokuMoveResult addDigit(int digit, int topRow, int colLeft) throws IllegalSudokuMove {
+        //TODO exception messages must be codes
         if (!isValidSudokuDigit(digit)) throw new IllegalSudokuMove("The digit must be between 1 and 9");
         if (!isValidSudokuRow(digit)) throw new IllegalSudokuMove("The topRow must be between 1 and 9");
         if (!isValidSudokuRow(digit)) throw new IllegalSudokuMove("The colLeft must be between 1 and 9");
@@ -58,7 +59,7 @@ public class Sudoku {
 
         if (isHint(row0,col0)) throw new IllegalSudokuMove("This topRow, colLeft is already filled with hint");
 
-        //too blocking
+        //TODO too much blocking
         synchronized (this) {
             insert(digit, row0, col0);
 
@@ -224,10 +225,11 @@ public class Sudoku {
         return new SudokuRow(i, i1, i2, i3, i4, i5, i6, i7, i8);
     }
 
-    private static class SudokuRow {
-        private byte[] row = new byte[9];
+    public static class SudokuRow {
+        private final byte[] row;
 
-        private SudokuRow(int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
+        public SudokuRow(int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
+            row = new byte[9];
             row[0] = (byte) i;
             row[1] = (byte) i1;
             row[2] = (byte) i2;

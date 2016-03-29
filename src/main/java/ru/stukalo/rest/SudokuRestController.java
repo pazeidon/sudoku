@@ -1,10 +1,13 @@
 package ru.stukalo.rest;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.stukalo.model.IllegalSudokuMove;
 import ru.stukalo.model.Sudoku;
 import ru.stukalo.model.SudokuMove;
 import ru.stukalo.model.SudokuMoveResult;
+
+import javax.servlet.http.HttpServletRequest;
 
 import static ru.stukalo.model.Sudoku.row;
 
@@ -27,7 +30,9 @@ public class SudokuRestController {
         return sudoku.addDigit(sudokuMove.getDigit(), sudokuMove.getTopRow(), sudokuMove.getColLeft());
     }
 
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalSudokuMove.class)
-    public void handleException() {
+    public @ResponseBody String handleException(HttpServletRequest req, Exception ex) {
+        return ex.getMessage();
     }
 }
